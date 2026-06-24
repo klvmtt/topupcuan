@@ -817,6 +817,280 @@
         max-width: 125px;
       }
     }
+
+
+    /* =========================================================
+       OPTIMASI RESPONSIF + MOBILE PERFORMANCE
+       - Mengurangi blur/filter/animasi berat di HP
+       - Layout tombol lebih aman di layar kecil
+       - Background tetap hidup, tapi lebih ringan
+    ========================================================= */
+    .gold-particles,
+    .bg-characters,
+    .sparkles {
+      contain: layout paint style;
+    }
+
+    @media (max-width: 768px), (hover: none) and (pointer: coarse) {
+      body {
+        min-height: 100svh;
+        background:
+          radial-gradient(circle at 20% 10%, rgba(255, 214, 90, 0.12), transparent 30%),
+          radial-gradient(circle at 90% 20%, rgba(255, 179, 0, 0.10), transparent 30%),
+          linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 55%, var(--bg-3) 100%);
+      }
+
+      body::before {
+        animation: none;
+        opacity: 0.45;
+      }
+
+      .topbar {
+        height: 58px;
+        padding: 7px 10px;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: 0 0 14px rgba(255, 179, 0, 0.16);
+      }
+
+      .brand-logo {
+        width: clamp(102px, 34vw, 124px);
+        height: 40px;
+        filter: drop-shadow(0 0 8px rgba(255, 220, 120, 0.35));
+      }
+
+      .topup-btn {
+        min-height: 34px;
+        padding: 0 12px;
+        font-size: clamp(10px, 3vw, 11px);
+        animation-duration: 2.4s;
+        box-shadow:
+          0 0 10px rgba(255, 214, 90, 0.42),
+          inset 0 0 10px rgba(255, 255, 255, 0.35);
+      }
+
+      .orb {
+        opacity: 0.34;
+        filter: blur(12px);
+        animation-duration: 14s;
+      }
+
+      .orb1 {
+        width: 210px;
+        height: 210px;
+        left: -110px;
+        top: 120px;
+      }
+
+      .orb2 {
+        width: 230px;
+        height: 230px;
+        right: -120px;
+        bottom: 70px;
+      }
+
+      .orb3 {
+        display: none;
+      }
+
+      .gold-particles,
+      .sparkles {
+        inset: 58px 0 0 0;
+        opacity: 0.5;
+      }
+
+      .bg-characters {
+        inset: 58px 0 0 0;
+        opacity: 0.55;
+      }
+
+      .particle,
+      .spark {
+        box-shadow: none;
+      }
+
+      .char {
+        max-width: 105px;
+        will-change: auto;
+        filter: drop-shadow(0 0 8px rgba(255, 222, 130, 0.35));
+      }
+
+      .char-move,
+      .char img {
+        animation: none !important;
+      }
+
+      .page {
+        min-height: calc(100svh - 58px);
+        padding: 18px 10px 20px;
+        align-items: center;
+      }
+
+      .card {
+        width: min(390px, calc(100vw - 20px));
+        padding: 24px 12px 24px;
+        border-radius: 20px;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        animation: none;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035)),
+          rgba(10, 10, 10, 0.58);
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.42),
+          0 0 22px rgba(255, 210, 94, 0.13),
+          inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      }
+
+      .group-icon-wrap {
+        width: clamp(92px, 28vw, 112px);
+        height: clamp(92px, 28vw, 112px);
+        margin-bottom: 16px;
+        padding: 14px;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+
+      .group-icon {
+        width: clamp(68px, 21vw, 82px);
+        height: clamp(68px, 21vw, 82px);
+        padding: 11px;
+      }
+
+      h1 {
+        font-size: clamp(22px, 6.4vw, 25px);
+        line-height: 1.08;
+      }
+
+      .subs {
+        margin-bottom: 22px;
+        font-size: 14px;
+      }
+
+      .action-buttons {
+        gap: 12px;
+      }
+
+      .action-btn-wrap {
+        width: min(350px, 100%);
+      }
+
+      .action-btn-wrap::before {
+        height: 54px;
+        filter: blur(6px);
+      }
+
+      .action-btn-wrap::after {
+        height: 48px;
+      }
+
+      .action-btn {
+        min-height: 47px;
+        padding: 0 9px;
+        grid-template-columns: 29px minmax(0, 1fr) 29px;
+        font-size: clamp(10.8px, 3.25vw, 12px);
+        white-space: nowrap;
+        animation-duration: 2.25s;
+        box-shadow:
+          0 0 13px rgba(255, 214, 90, 0.42),
+          0 0 30px rgba(255, 179, 0, 0.20),
+          inset 0 0 12px rgba(255, 255, 255, 0.45);
+      }
+
+      .btn-icon {
+        width: 25px;
+        height: 25px;
+        min-width: 25px;
+        animation-duration: 2.2s, 2.2s;
+      }
+
+      .btn-icon svg {
+        width: 17px;
+        height: 17px;
+      }
+
+      .btn-label {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .info-btn {
+        font-size: clamp(9.7px, 2.95vw, 10.8px);
+        letter-spacing: -0.25px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .topup-btn {
+        padding: 0 10px;
+      }
+
+      .card {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .action-btn {
+        min-height: 45px;
+        grid-template-columns: 26px minmax(0, 1fr) 26px;
+        padding: 0 8px;
+      }
+
+      .btn-icon {
+        width: 23px;
+        height: 23px;
+        min-width: 23px;
+      }
+    }
+
+    @media (max-height: 680px) and (max-width: 768px) {
+      .page {
+        align-items: flex-start;
+        padding-top: 14px;
+      }
+
+      .card {
+        padding-top: 18px;
+        padding-bottom: 18px;
+      }
+
+      .group-icon-wrap {
+        width: 86px;
+        height: 86px;
+        margin-bottom: 12px;
+      }
+
+      .group-icon {
+        width: 64px;
+        height: 64px;
+      }
+
+      .subs {
+        margin-bottom: 16px;
+      }
+
+      .action-buttons {
+        gap: 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+
+      .gold-particles,
+      .bg-characters,
+      .sparkles {
+        display: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -915,6 +1189,12 @@
     const sparkles = document.getElementById("sparkles");
     const subscriberRoller = document.getElementById("subscriberRoller");
 
+
+    const isMobileDevice = window.matchMedia("(max-width: 768px), (hover: none) and (pointer: coarse)").matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const saveData = navigator.connection && navigator.connection.saveData;
+    const lowPowerMode = reduceMotion || saveData;
+
     function random(min, max) {
       return Math.random() * (max - min) + min;
     }
@@ -939,28 +1219,32 @@
     }
 
     function createGoldParticles() {
-      const total = 74;
+      const total = lowPowerMode ? 0 : (isMobileDevice ? 18 : 74);
+      const fragment = document.createDocumentFragment();
 
       for (let i = 0; i < total; i++) {
         const p = document.createElement("span");
         p.className = "particle";
 
-        const size = random(2, 8);
+        const size = isMobileDevice ? random(2, 5) : random(2, 8);
 
         p.style.width = size + "px";
         p.style.height = size + "px";
         p.style.left = random(0, 100) + "%";
         p.style.top = random(28, 100) + "%";
-        p.style.animationDuration = random(4.5, 10) + "s";
-        p.style.animationDelay = random(0, 8) + "s";
-        p.style.setProperty("--drift-x", random(-30, 30) + "px");
+        p.style.animationDuration = random(isMobileDevice ? 7 : 4.5, isMobileDevice ? 13 : 10) + "s";
+        p.style.animationDelay = random(0, isMobileDevice ? 6 : 8) + "s";
+        p.style.setProperty("--drift-x", random(isMobileDevice ? -18 : -30, isMobileDevice ? 18 : 30) + "px");
 
-        goldParticles.appendChild(p);
+        fragment.appendChild(p);
       }
+
+      goldParticles.appendChild(fragment);
     }
 
     function createSparkles() {
-      const total = 58;
+      const total = lowPowerMode ? 0 : (isMobileDevice ? 14 : 58);
+      const fragment = document.createDocumentFragment();
 
       for (let i = 0; i < total; i++) {
         const s = document.createElement("span");
@@ -968,16 +1252,19 @@
 
         s.style.left = random(0, 100) + "%";
         s.style.top = random(24, 100) + "%";
-        s.style.animationDuration = random(3.2, 6.2) + "s";
+        s.style.animationDuration = random(isMobileDevice ? 5 : 3.2, isMobileDevice ? 8 : 6.2) + "s";
         s.style.animationDelay = random(0, 5) + "s";
 
-        sparkles.appendChild(s);
+        fragment.appendChild(s);
       }
+
+      sparkles.appendChild(fragment);
     }
 
     function createCharacters() {
-      const total = 44;
+      const total = lowPowerMode ? 0 : (isMobileDevice ? 8 : 44);
       const pool = shuffleArray(characters);
+      const fragment = document.createDocumentFragment();
 
       for (let i = 0; i < total; i++) {
         const wrap = document.createElement("div");
@@ -990,36 +1277,39 @@
         img.src = pool[i % pool.length];
         img.alt = "Character";
         img.loading = "lazy";
+        img.decoding = "async";
 
         img.onerror = function () {
           wrap.remove();
         };
 
-        const size = random(72, 165);
-        const left = random(0, 92);
+        const size = isMobileDevice ? random(58, 105) : random(72, 165);
+        const left = random(0, isMobileDevice ? 86 : 92);
         const top = random(2, 88);
-        const fadeDur = random(5.2, 9.2);
-        const sideDur = random(4.5, 8.5);
-        const maxOpacity = random(0.24, 0.48);
-        const driftAmp = random(6, 18) + "px";
-        const sideAmp = random(5, 22) + "px";
+        const fadeDur = random(isMobileDevice ? 7 : 5.2, isMobileDevice ? 12 : 9.2);
+        const sideDur = random(isMobileDevice ? 7 : 4.5, isMobileDevice ? 12 : 8.5);
+        const maxOpacity = isMobileDevice ? random(0.12, 0.25) : random(0.24, 0.48);
+        const driftAmp = random(isMobileDevice ? 3 : 6, isMobileDevice ? 9 : 18) + "px";
+        const sideAmp = random(isMobileDevice ? 3 : 5, isMobileDevice ? 10 : 22) + "px";
 
         wrap.style.width = size + "px";
         wrap.style.left = left + "%";
         wrap.style.top = top + "%";
-        wrap.style.animationDelay = random(0, 6) + "s";
+        wrap.style.animationDelay = random(0, isMobileDevice ? 4 : 6) + "s";
         wrap.style.setProperty("--fadeDur", fadeDur + "s");
         wrap.style.setProperty("--sideDur", sideDur + "s");
         wrap.style.setProperty("--maxOpacity", maxOpacity);
         wrap.style.setProperty("--driftAmp", driftAmp);
         wrap.style.setProperty("--sideAmp", sideAmp);
 
-        img.style.opacity = random(0.68, 0.88);
+        img.style.opacity = isMobileDevice ? random(0.45, 0.62) : random(0.68, 0.88);
 
         move.appendChild(img);
         wrap.appendChild(move);
-        bgCharacters.appendChild(wrap);
+        fragment.appendChild(wrap);
       }
+
+      bgCharacters.appendChild(fragment);
     }
 
     let rollerSlots = [];
@@ -1192,10 +1482,19 @@
       setTimeout(loop, randomInt(1400, 2600));
     }
 
-    createGoldParticles();
-    createSparkles();
-    createCharacters();
+    function startBackgroundEffects() {
+      createGoldParticles();
+      createSparkles();
+      createCharacters();
+    }
+
     startLiveSubscribers();
+
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(startBackgroundEffects, { timeout: 900 });
+    } else {
+      setTimeout(startBackgroundEffects, 350);
+    }
   </script>
 </body>
 </html>
