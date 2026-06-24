@@ -819,8 +819,8 @@
     }
 
     /* Optimasi mobile:
-       karakter background dimatikan di HP supaya halaman lebih responsif dan tidak ngelag.
-       Efek lain seperti tombol, subscriber roller, particles, dan sparkles tetap jalan normal. */
+       karakter dan partikel background dimatikan di HP supaya halaman lebih responsif dan tidak ngelag.
+       Efek utama seperti tombol dan subscriber roller tetap jalan normal. */
     @media (max-width: 768px) {
       html,
       body {
@@ -834,13 +834,17 @@
         touch-action: manipulation;
       }
 
-      .bg-characters {
+      .bg-characters,
+      .gold-particles,
+      .sparkles {
         display: none !important;
       }
 
       .char,
       .char-move,
-      .char img {
+      .char img,
+      .particle,
+      .spark {
         animation: none !important;
         display: none !important;
       }
@@ -992,6 +996,8 @@
 
     const mobileQuery = window.matchMedia("(max-width: 768px)");
     let charactersCreated = false;
+    let particlesCreated = false;
+    let sparklesCreated = false;
     let resizeTimer = null;
 
     function isMobileView() {
@@ -1022,6 +1028,18 @@
     }
 
     function createGoldParticles() {
+      if (isMobileView()) {
+        goldParticles.innerHTML = "";
+        particlesCreated = false;
+        return;
+      }
+
+      if (particlesCreated) {
+        return;
+      }
+
+      particlesCreated = true;
+
       const total = 74;
 
       for (let i = 0; i < total; i++) {
@@ -1043,6 +1061,18 @@
     }
 
     function createSparkles() {
+      if (isMobileView()) {
+        sparkles.innerHTML = "";
+        sparklesCreated = false;
+        return;
+      }
+
+      if (sparklesCreated) {
+        return;
+      }
+
+      sparklesCreated = true;
+
       const total = 58;
 
       for (let i = 0; i < total; i++) {
@@ -1287,21 +1317,27 @@
       setTimeout(loop, randomInt(1400, 2600));
     }
 
-    function handleResponsiveCharacters() {
+    function handleResponsiveBackgroundEffects() {
       clearTimeout(resizeTimer);
 
       resizeTimer = setTimeout(() => {
         if (isMobileView()) {
           bgCharacters.innerHTML = "";
+          goldParticles.innerHTML = "";
+          sparkles.innerHTML = "";
           charactersCreated = false;
+          particlesCreated = false;
+          sparklesCreated = false;
           return;
         }
 
+        createGoldParticles();
+        createSparkles();
         createCharacters();
       }, 160);
     }
 
-    window.addEventListener("resize", handleResponsiveCharacters, { passive: true });
+    window.addEventListener("resize", handleResponsiveBackgroundEffects, { passive: true });
 
     createGoldParticles();
     createSparkles();
