@@ -661,6 +661,37 @@
       letter-spacing: 0;
     }
 
+
+
+    /* Clean mode: hilangkan glow/aura di 3 tombol bawah, tapi kilatan putih tetap jalan */
+    .action-btn-wrap::before,
+    .action-btn-wrap::after {
+      display: none;
+    }
+
+    .action-btn::before {
+      display: block;
+    }
+
+    .action-btn {
+      box-shadow:
+        inset 0 0 8px rgba(255, 255, 255, 0.28),
+        inset 0 -3px 8px rgba(166, 104, 0, 0.18);
+      animation: none;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        inset 0 0 8px rgba(255, 255, 255, 0.30),
+        inset 0 -3px 8px rgba(166, 104, 0, 0.20);
+    }
+
+    .btn-icon {
+      box-shadow: none;
+      filter: none;
+    }
+
     @keyframes actionPulse {
       from {
         transform: scale(1);
