@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="id">
 <head>
@@ -205,6 +204,8 @@
     }
 
     .telegram-card {
+      --card-x: 50%;
+      --card-y: 0%;
       position: relative;
       isolation: isolate;
       width: min(100%, 440px);
@@ -227,14 +228,13 @@
       content: "";
       position: absolute;
       z-index: -1;
-      width: 250px;
-      height: 250px;
-      top: -150px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,222,48,.18), transparent 68%);
+      inset: 0;
+      border-radius: inherit;
+      background:
+        radial-gradient(310px circle at var(--card-x) var(--card-y), rgba(255, 224, 67, .17), transparent 64%),
+        radial-gradient(circle at 50% -12%, rgba(255, 190, 0, .08), transparent 38%);
       pointer-events: none;
+      transition: opacity .28s var(--ease);
     }
 
     .telegram-card::after {
@@ -329,19 +329,20 @@
 
     .community-counter {
       position: relative;
-      width: min(100%, 286px);
-      margin: 13px auto 0;
-      padding: 12px 16px 11px;
+      width: min(100%, 316px);
+      margin: 14px auto 0;
+      padding: 12px 15px 10px;
       overflow: hidden;
-      border: 1px solid rgba(255, 222, 67, .19);
-      border-radius: 16px;
+      border: 1px solid rgba(255, 222, 67, .22);
+      border-radius: 17px;
       background:
-        linear-gradient(135deg, rgba(255, 225, 67, .085), rgba(255, 154, 0, .025)),
-        rgba(7, 7, 5, .68);
+        linear-gradient(135deg, rgba(255, 225, 67, .09), rgba(255, 154, 0, .025)),
+        rgba(7, 7, 5, .72);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.04),
-        0 10px 24px rgba(0,0,0,.2),
-        0 0 22px rgba(255,190,0,.04);
+        inset 0 1px 0 rgba(255,255,255,.045),
+        0 10px 24px rgba(0,0,0,.22),
+        0 0 24px rgba(255,190,0,.045);
+      contain: layout paint;
     }
 
     .community-counter::before {
@@ -350,12 +351,13 @@
       inset: -90% -30%;
       pointer-events: none;
       background: conic-gradient(from 90deg, transparent 0 38%, rgba(255,224,70,.13) 44%, transparent 50% 100%);
-      animation: counter-orbit 9s linear infinite;
+      animation: counter-orbit 11s linear infinite;
     }
 
     .counter-label,
     .counter-note,
-    .counter-value-wrap {
+    .counter-value-wrap,
+    .counter-meta {
       position: relative;
       z-index: 1;
     }
@@ -370,7 +372,7 @@
     }
 
     .counter-value-wrap {
-      margin-top: 2px;
+      margin-top: 3px;
       display: inline-flex;
       align-items: baseline;
       justify-content: center;
@@ -380,20 +382,24 @@
     }
 
     .counter-value {
-      min-width: 116px;
+      min-width: 121px;
       display: inline-block;
       font-variant-numeric: tabular-nums;
-      font-size: 26px;
-      line-height: 1.05;
+      font-size: clamp(25px, 7vw, 28px);
+      line-height: 1.04;
       font-weight: 950;
-      letter-spacing: .015em;
-      transition: filter .25s ease, transform .25s ease;
+      letter-spacing: .012em;
+      transition: filter .2s ease, transform .2s ease, color .2s ease;
+      will-change: transform;
     }
 
     .counter-value.is-changing {
-      filter: brightness(1.25) drop-shadow(0 0 10px rgba(255,210,0,.35));
-      transform: translateY(-1px) scale(1.025);
+      filter: brightness(1.22) drop-shadow(0 0 9px rgba(255,210,0,.31));
+      transform: translateY(-1px) scale(1.018);
     }
+
+    .counter-value.is-up { color: #fff8c7; }
+    .counter-value.is-down { color: #ffe49a; }
 
     .counter-suffix {
       color: var(--gold-3);
@@ -401,13 +407,72 @@
       font-weight: 950;
     }
 
+    .counter-meta {
+      margin-top: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 18px;
+    }
+
+    .counter-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #aaa38b;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .105em;
+      text-transform: uppercase;
+    }
+
+    .counter-live-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #ffd51f;
+      box-shadow: 0 0 8px rgba(255, 205, 0, .62);
+      animation: status-pulse 1.8s ease-in-out infinite;
+    }
+
+    .counter-trend {
+      min-width: 48px;
+      padding: 3px 7px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      border: 1px solid rgba(255, 221, 65, .14);
+      border-radius: 999px;
+      color: #ded6b8;
+      background: rgba(255, 216, 45, .045);
+      font-size: 8px;
+      font-weight: 950;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .05em;
+      transition: color .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .counter-trend.is-up {
+      color: #fff1a8;
+      border-color: rgba(255, 222, 66, .25);
+      background: rgba(255, 205, 22, .075);
+    }
+
+    .counter-trend.is-down {
+      color: #d8ceb0;
+      border-color: rgba(199, 186, 143, .19);
+      background: rgba(255, 255, 255, .025);
+    }
+
     .counter-note {
-      margin-top: 4px;
+      margin-top: 5px;
       display: block;
       color: #777264;
       font-size: 7px;
       font-weight: 850;
-      letter-spacing: .15em;
+      letter-spacing: .12em;
       text-transform: uppercase;
     }
 
@@ -836,6 +901,60 @@
       .action-button { font-size: 10px; }
     }
 
+
+    @media (max-width: 430px) {
+      .site-header { min-width: 0; }
+      .brand { flex: 1 1 auto; overflow: hidden; }
+      .brand img { width: min(145px, calc(100vw - 155px)); min-width: 112px; }
+      .topup-button { flex: 0 0 auto; }
+
+      main {
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+      }
+
+      .telegram-card {
+        width: 100%;
+        padding-left: clamp(14px, 4.5vw, 18px);
+        padding-right: clamp(14px, 4.5vw, 18px);
+      }
+
+      h1 { font-size: clamp(25px, 8vw, 30px); }
+      .community-counter { width: min(100%, 306px); }
+      .counter-meta { gap: 6px; }
+      .action-label { overflow-wrap: anywhere; }
+    }
+
+    @media (max-width: 340px) {
+      :root { --header-height: 58px; }
+      .site-header { padding-left: 8px; padding-right: 8px; }
+      .brand img { width: 112px; min-width: 104px; }
+      .topup-button { min-height: 34px; padding: 0 9px; font-size: 8px; }
+      main { padding-top: 18px; }
+      .telegram-card { padding-top: 24px; }
+      .counter-live { letter-spacing: .06em; }
+      .counter-trend { min-width: 44px; padding-inline: 6px; }
+    }
+
+    @media (max-height: 720px) and (min-width: 541px) {
+      main { padding-top: 22px; padding-bottom: 24px; }
+      .telegram-card { padding-top: 25px; padding-bottom: 22px; }
+      .avatar-wrap { width: 108px; height: 108px; margin-bottom: 14px; }
+      .avatar-wrap img { width: 98px; height: 98px; }
+      .actions { margin-top: 20px; gap: 10px; }
+      .action-button { min-height: 50px; }
+      .additional { margin-top: 16px; }
+    }
+
+    @media (orientation: landscape) and (max-height: 540px) {
+      main { place-items: start center; padding-top: 14px; }
+      .telegram-card { padding-top: 20px; }
+      .avatar-wrap { width: 90px; height: 90px; margin-bottom: 12px; }
+      .avatar-wrap img { width: 82px; height: 82px; }
+      .avatar-wrap::before { inset: -6px; }
+      .actions { margin-top: 17px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         scroll-behavior: auto !important;
@@ -867,13 +986,17 @@
 
       <p class="eyebrow">Official Link Center</p>
       <h1 id="page-title">TOPUPCUAN.COM</h1>
-      <div class="community-counter" aria-label="Tampilan animasi pertumbuhan komunitas">
+      <div class="community-counter" aria-label="Simulasi aktivitas anggota komunitas">
         <span class="counter-label">Anggota Komunitas</span>
         <span class="counter-value-wrap">
           <span id="community-counter" class="counter-value">18.420</span>
           <span class="counter-suffix">+</span>
         </span>
-        <span class="counter-note">Tampilan animasi</span>
+        <span class="counter-meta" aria-hidden="true">
+          <span class="counter-live"><span class="counter-live-dot"></span>Aktivitas live</span>
+          <span id="counter-trend" class="counter-trend">5M ±0</span>
+        </span>
+        <span class="counter-note">Simulasi tampilan · bukan data anggota resmi</span>
       </div>
 
       <div class="status-row" aria-label="Status resmi">
@@ -966,69 +1089,245 @@
       });
     });
 
-    // Counter dekoratif dengan status tersimpan agar tidak reset setiap refresh.
-    // Teks "Tampilan animasi" sengaja terlihat agar tidak disalahartikan sebagai data subscriber resmi.
+    // Simulasi counter yang halus, naik-turun, dan tetap konsisten setelah refresh.
+    // Nilai ini hanya gimmick visual; label di UI menegaskan bahwa ini bukan data anggota resmi.
     const counterElement = document.getElementById("community-counter");
-    const counterKey = "topupcuan-community-display-v2";
+    const counterTrendElement = document.getElementById("counter-trend");
+    const counterKey = "topupcuan-community-display-v3";
+    const legacyCounterKey = "topupcuan-community-display-v2";
+    const windowNamePrefix = "topupcuan-counter:";
+    const numberFormatter = new Intl.NumberFormat("id-ID");
+    const COUNTER_FLOOR = 18000;
+    const FALLBACK_BASE = 18420;
+    const FALLBACK_EPOCH = Date.UTC(2026, 6, 15, 0, 0, 0);
 
     function formatCounter(value) {
-      return new Intl.NumberFormat("id-ID").format(Math.round(value));
+      return numberFormatter.format(Math.round(value));
+    }
+
+    function hashNoise(input) {
+      let value = Math.imul(input ^ 0x9e3779b9, 0x85ebca6b);
+      value ^= value >>> 13;
+      value = Math.imul(value, 0xc2b2ae35);
+      value ^= value >>> 16;
+      return (value >>> 0) / 4294967295;
+    }
+
+    // Fallback berbasis waktu: walau storage diblokir, refresh tidak kembali ke angka awal statis.
+    function timeBasedFallback(now = Date.now()) {
+      const elapsedHours = Math.max(0, (now - FALLBACK_EPOCH) / 3600000);
+      const slowGrowth = Math.floor(elapsedHours * .34);
+      const bucket = Math.floor(now / 30000);
+      const wave = Math.round(Math.sin(bucket / 5.3) * 3 + Math.sin(bucket / 13.7) * 2);
+      const jitter = Math.round((hashNoise(bucket) - .5) * 2);
+      return Math.max(COUNTER_FLOOR, FALLBACK_BASE + slowGrowth + wave + jitter);
+    }
+
+    function parseState(raw) {
+      try {
+        const state = JSON.parse(raw || "null");
+        if (!state || !Number.isFinite(state.value) || !Number.isFinite(state.updatedAt)) return null;
+        state.value = Math.max(COUNTER_FLOOR, Math.round(state.value));
+        state.history = Array.isArray(state.history)
+          ? state.history.filter((entry) => entry && Number.isFinite(entry.t) && Number.isFinite(entry.v)).slice(-80)
+          : [];
+        return state;
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function getStorage(name) {
+      try { return window[name] || null; } catch (_) { return null; }
+    }
+
+    const localStore = getStorage("localStorage");
+    const sessionStore = getStorage("sessionStorage");
+
+    function readFromStorage(storage, key) {
+      if (!storage) return null;
+      try { return parseState(storage.getItem(key)); } catch (_) { return null; }
+    }
+
+    function writeToStorage(storage, key, value) {
+      if (!storage) return false;
+      try { storage.setItem(key, value); return true; } catch (_) { return false; }
     }
 
     function readCounterState() {
-      try {
-        const saved = JSON.parse(localStorage.getItem(counterKey) || "null");
-        if (saved && Number.isFinite(saved.value) && Number.isFinite(saved.updatedAt)) return saved;
-      } catch (_) {}
-      const fresh = {
-        value: 18420 + Math.floor(Math.random() * 240),
-        updatedAt: Date.now()
-      };
-      localStorage.setItem(counterKey, JSON.stringify(fresh));
-      return fresh;
+      let saved = readFromStorage(localStore, counterKey)
+        || readFromStorage(sessionStore, counterKey);
+
+      // Migrasi angka dari versi lama agar pengguna lama juga tidak melihat reset.
+      if (!saved) {
+        saved = readFromStorage(localStore, legacyCounterKey)
+          || readFromStorage(sessionStore, legacyCounterKey);
+      }
+
+      if (!saved && typeof window.name === "string" && window.name.startsWith(windowNamePrefix)) {
+        saved = parseState(window.name.slice(windowNamePrefix.length));
+      }
+
+      const now = Date.now();
+      if (!saved) {
+        const value = timeBasedFallback(now);
+        saved = { value, updatedAt: now, history: [{ t: now, v: value }] };
+      }
+      return saved;
     }
 
-    function animateCounter(from, to, duration = 720) {
+    function saveCounterState(state) {
+      const serialized = JSON.stringify(state);
+      const savedLocally = writeToStorage(localStore, counterKey, serialized);
+      writeToStorage(sessionStore, counterKey, serialized);
+      if (!savedLocally && (!window.name || window.name.startsWith(windowNamePrefix))) {
+        window.name = windowNamePrefix + serialized;
+      }
+    }
+
+    function compactHistory(state, now = Date.now()) {
+      const cutoff = now - 10 * 60 * 1000;
+      state.history = (state.history || []).filter((entry) => entry.t >= cutoff).slice(-79);
+      const last = state.history[state.history.length - 1];
+      if (!last || now - last.t > 7000 || last.v !== state.value) {
+        state.history.push({ t: now, v: state.value });
+      }
+    }
+
+    function updateTrend(state) {
+      if (!counterTrendElement) return;
+      const now = Date.now();
+      const cutoff = now - 5 * 60 * 1000;
+      const reference = state.history.find((entry) => entry.t >= cutoff) || state.history[0];
+      const change = reference ? state.value - reference.v : 0;
+      const arrow = change > 0 ? "▲" : change < 0 ? "▼" : "•";
+      const sign = change > 0 ? "+" : "";
+      counterTrendElement.textContent = `5M ${arrow}${sign}${change}`;
+      counterTrendElement.classList.toggle("is-up", change > 0);
+      counterTrendElement.classList.toggle("is-down", change < 0);
+    }
+
+    let counterAnimationFrame = 0;
+    function animateCounter(from, to, duration = 520) {
       if (!counterElement) return;
+      cancelAnimationFrame(counterAnimationFrame);
       const startedAt = performance.now();
+      const directionClass = to > from ? "is-up" : to < from ? "is-down" : "";
+      counterElement.classList.remove("is-up", "is-down");
+      if (directionClass) counterElement.classList.add(directionClass);
       counterElement.classList.add("is-changing");
 
       function frame(now) {
         const progress = Math.min(1, (now - startedAt) / duration);
-        const eased = 1 - Math.pow(1 - progress, 3);
+        const eased = 1 - Math.pow(1 - progress, 4);
         const current = from + (to - from) * eased;
         counterElement.textContent = formatCounter(current);
-        if (progress < 1) requestAnimationFrame(frame);
-        else window.setTimeout(() => counterElement.classList.remove("is-changing"), 120);
+        if (progress < 1) {
+          counterAnimationFrame = requestAnimationFrame(frame);
+        } else {
+          counterElement.textContent = formatCounter(to);
+          window.setTimeout(() => counterElement.classList.remove("is-changing", "is-up", "is-down"), 160);
+        }
       }
-      requestAnimationFrame(frame);
+      counterAnimationFrame = requestAnimationFrame(frame);
+    }
+
+    function calculateOfflineValue(state, now = Date.now()) {
+      const elapsedMinutes = Math.max(0, Math.floor((now - state.updatedAt) / 60000));
+      if (!elapsedMinutes) return state.value;
+
+      // Pertumbuhan lambat dengan fluktuasi kecil; dibatasi agar tab yang lama ditutup tidak melonjak berlebihan.
+      const cappedMinutes = Math.min(elapsedMinutes, 60 * 24 * 14);
+      const expectedGrowth = Math.floor(cappedMinutes / 105);
+      const cycle = Math.round(Math.sin(Math.floor(now / 60000) / 17) * 2);
+      return Math.max(COUNTER_FLOOR, state.value + expectedGrowth + cycle);
+    }
+
+    function chooseDelta(current, now = Date.now()) {
+      const softTarget = timeBasedFallback(now);
+      const distance = softTarget - current;
+      const random = Math.random();
+      let delta = 0;
+
+      if (distance > 5) {
+        delta = random < .72 ? 1 : random < .91 ? 2 : random < .97 ? 0 : -1;
+      } else if (distance < -5) {
+        delta = random < .58 ? -1 : random < .72 ? -2 : random < .91 ? 0 : 1;
+      } else {
+        // Di area normal: lebih sering naik, tetapi penurunan dan jeda tetap terjadi secara natural.
+        delta = random < .30 ? 0 : random < .55 ? 1 : random < .68 ? 2 : random < .71 ? 3 : random < .93 ? -1 : -2;
+      }
+      return delta;
     }
 
     let counterState = readCounterState();
-    const elapsedSteps = Math.min(120, Math.floor((Date.now() - counterState.updatedAt) / 9000));
-    if (elapsedSteps > 0) {
-      for (let i = 0; i < elapsedSteps; i += 1) {
-        counterState.value += Math.random() < .22 ? -Math.ceil(Math.random() * 2) : Math.ceil(Math.random() * 4);
-      }
-      counterState.updatedAt = Date.now();
-      localStorage.setItem(counterKey, JSON.stringify(counterState));
-    }
+    const initialStoredValue = counterState.value;
+    const offlineValue = calculateOfflineValue(counterState);
+    counterState.value = offlineValue;
+    counterState.updatedAt = Date.now();
+    compactHistory(counterState);
+    saveCounterState(counterState);
 
-    animateCounter(Math.max(0, counterState.value - 8), counterState.value, 950);
+    // Tampilkan nilai tersimpan langsung, lalu animasikan hanya selisih yang memang terjadi saat offline.
+    counterElement.textContent = formatCounter(initialStoredValue);
+    if (offlineValue !== initialStoredValue) animateCounter(initialStoredValue, offlineValue, 780);
+    else counterElement.textContent = formatCounter(offlineValue);
+    updateTrend(counterState);
 
+    let counterTimer = 0;
     function scheduleCounterMove() {
-      const wait = 4200 + Math.random() * 3600;
-      window.setTimeout(() => {
+      window.clearTimeout(counterTimer);
+      const activityWave = (Math.sin(Date.now() / 18000) + 1) / 2;
+      const wait = 1550 + Math.random() * 1900 + (1 - activityWave) * 900;
+
+      counterTimer = window.setTimeout(() => {
+        if (document.hidden) {
+          scheduleCounterMove();
+          return;
+        }
+
         const previous = counterState.value;
-        const delta = Math.random() < .24 ? -Math.ceil(Math.random() * 2) : Math.ceil(Math.random() * 4);
-        counterState.value = Math.max(100, counterState.value + delta);
+        const delta = chooseDelta(previous);
+        counterState.value = Math.max(COUNTER_FLOOR, previous + delta);
         counterState.updatedAt = Date.now();
-        localStorage.setItem(counterKey, JSON.stringify(counterState));
-        animateCounter(previous, counterState.value, 620 + Math.random() * 260);
+        compactHistory(counterState);
+        saveCounterState(counterState);
+        updateTrend(counterState);
+
+        if (counterState.value !== previous) {
+          animateCounter(previous, counterState.value, 360 + Math.random() * 260);
+        }
         scheduleCounterMove();
       }, wait);
     }
     scheduleCounterMove();
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        const previous = counterState.value;
+        counterState.value = calculateOfflineValue(counterState);
+        counterState.updatedAt = Date.now();
+        compactHistory(counterState);
+        saveCounterState(counterState);
+        updateTrend(counterState);
+        if (counterState.value !== previous) animateCounter(previous, counterState.value, 620);
+        scheduleCounterMove();
+      }
+    });
+
+    // Cahaya kartu mengikuti pointer secara halus pada desktop tanpa mengganggu perangkat sentuh.
+    const telegramCard = document.querySelector(".telegram-card");
+    if (telegramCard && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      telegramCard.addEventListener("pointermove", (event) => {
+        const rect = telegramCard.getBoundingClientRect();
+        telegramCard.style.setProperty("--card-x", `${event.clientX - rect.left}px`);
+        telegramCard.style.setProperty("--card-y", `${event.clientY - rect.top}px`);
+      });
+      telegramCard.addEventListener("pointerleave", () => {
+        telegramCard.style.setProperty("--card-x", "50%");
+        telegramCard.style.setProperty("--card-y", "0%");
+      });
+    }
 
     // Efek tilt ringan mengikuti pointer; dinonaktifkan otomatis pada perangkat sentuh.
     if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
